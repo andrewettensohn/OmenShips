@@ -1,0 +1,36 @@
+﻿<MudGrid>
+    <MudItem>
+        <MudTextField @bind-Value="ViewModel.NewShip.Name" Label="Name" Variant="Variant.Outlined" />
+    </MudItem>
+</MudGrid>
+<MudGrid>
+    <MudItem xs="12">
+        <MudSelect Label="Select Hull" @bind-Value="ViewModel.NewShipSelectedHull" ToStringFunc="ViewModel.HullNameConverter" >
+        @foreach (StarshipHull item in ViewModel.Hulls)
+        {
+            <MudSelectItem Value="item" />
+        }
+        </MudSelect>
+    </MudItem>
+</MudGrid>
+<MudGrid>
+    <MudItem xs="12">
+        <MudSelect Label="Select Class" @bind-Value="ViewModel.NewShipSelectedClass" ToStringFunc="ViewModel.ClassNameConverter">
+        @foreach (StarshipClass item in ViewModel.Classes)
+        {
+            <MudSelectItem Value="item" />
+        }
+        </MudSelect>
+    </MudItem>
+</MudGrid>
+<MudGrid>
+    <MudItem>
+        <MudButton OnClick="ViewModel.AddNewShip">Add New Ship</MudButton>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+    [CascadingParameter]
+    public FitsViewModel ViewModel { get; set; }
+}

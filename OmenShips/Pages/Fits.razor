@@ -1,0 +1,31 @@
+﻿@page "/fits"
+
+<CascadingValue Value="_vm">
+    <MudExpansionPanel Text="New Ship">
+        <NewShipInput />
+    </MudExpansionPanel>
+    <MudGrid>
+        @if(_vm.Ships.Any())
+        {
+            <MudItem>
+                <MudSelect Label="Select Ship" @bind-Value="_vm.SelectedShip" ToStringFunc="_vm.StarshipNameConverter">
+                    @foreach (Starship ship in _vm.Ships)
+                    {
+                        <MudSelectItem Value="@ship" />
+                    }
+                </MudSelect>
+            </MudItem>
+        }
+    </MudGrid>
+    <MudGrid>
+        @if(_vm.SelectedShip != null)
+        {
+            @foreach(ShipModule module in _vm.SelectedShip?.Modules)
+            {
+                <MudItem xs="12">
+                    <ModuleSlot ShipModule="module" />
+                </MudItem>
+            }
+        }
+    </MudGrid>
+</CascadingValue>

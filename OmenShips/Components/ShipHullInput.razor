@@ -1,0 +1,27 @@
+﻿<MudGrid>
+    <MudItem>
+        <MudTextField @bind-Value="ViewModel.StarshipHull.Name" Label="Name" Variant="Variant.Outlined" />
+    </MudItem>
+    <MudItem>
+        <MudTextField @bind-Value="ViewModel.StarshipHull.Description" Label="Description" Lines="3" Variant="Variant.Outlined" />
+    </MudItem>
+    <MudItem>
+        <MudTextField @bind-Value="ViewModel.StarshipHull.SpecialAbility" Label="Special Ability" Lines="3" Variant="Variant.Outlined" />
+    </MudItem>
+    <MudItem>
+        <MudNumericField @bind-Value="ViewModel.StarshipHull.Hitpoints" Label="Hitpoints" Variant="Variant.Outlined" />
+    </MudItem>
+    <MudItem>
+        <MudNumericField @bind-Value="ViewModel.StarshipHull.Value" Label="Value" Variant="Variant.Outlined" />
+    </MudItem>
+</MudGrid>
+<MudGrid>
+    <MudItem>
+        <MudButton OnClick="ViewModel.AddNewShipHull">Add New Class</MudButton>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [CascadingParameter]
+    public HullViewModel ViewModel { get; set; }
+}

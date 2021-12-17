@@ -1,0 +1,25 @@
+﻿<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+        @if(_vm.IsEmptyModule)
+        {
+            <MudText Typo="Typo.body2">Open Module Slot</MudText>
+        }
+        else
+        {
+             <MudText Typo="Typo.body2">@_vm.ShipModule.Name</MudText>   
+        }
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        @if(_vm.IsEmptyModule)
+        {
+            <MudSelect Label="Select Ship" @onchange="_vm.ParentViewModel.AddModuleToShip" ToStringFunc="_vm.ParentViewModel.ModuleNameConverter">
+                @foreach (ShipModule module in _vm.ParentViewModel.ShipModules)
+                {
+                    <MudSelectItem Value="module" />
+                }
+            </MudSelect>
+        }
+    </MudCardContent>
+</MudCard>

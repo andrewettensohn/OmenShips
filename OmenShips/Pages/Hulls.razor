@@ -1,0 +1,38 @@
+﻿@page "/hulls"
+
+<MudGrid>
+    <MudItem>
+        <MudGrid>
+            <MudExpansionPanel Text="New Hull">
+                <CascadingValue Value="@_vm">
+                    <ShipHullInput />
+                </CascadingValue>
+            </MudExpansionPanel>
+        </MudGrid>
+    </MudItem>
+    <MudItem>
+        <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Hitpoints</td>
+                <td>Value</td>
+                <td>Special Ability</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(StarshipHull hull in _vm.Hulls)
+            {
+                <tr>
+                    <td>@hull.Name</td>
+                    <td>@hull.Description</td>
+                    <td>@hull.Hitpoints</td>
+                    <td>@hull.Value</td>
+                    <td>@hull.SpecialAbility</td>
+                </tr>
+            }
+    </tbody>
+</MudSimpleTable>
+    </MudItem>
+</MudGrid>

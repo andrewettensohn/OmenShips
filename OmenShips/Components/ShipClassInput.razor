@@ -1,0 +1,24 @@
+﻿<MudGrid>
+    <MudItem>
+        <MudTextField @bind-Value="ViewModel.NewShipClass.Name" Label="Name" Variant="Variant.Outlined" />
+    </MudItem>
+    <MudItem>
+        <MudTextField @bind-Value="ViewModel.NewShipClass.Description" Label="Description" Variant="Variant.Outlined" />
+    </MudItem>
+    <MudItem>
+        <MudNumericField @bind-Value="ViewModel.NewShipClass.Slots" Label="Slots" Variant="Variant.Outlined" />
+    </MudItem>
+    <MudItem>
+        <MudNumericField @bind-Value="ViewModel.NewShipClass.BaseStealth" Label="Base Stealth" Variant="Variant.Outlined" />
+    </MudItem>
+</MudGrid>
+<MudGrid>
+    <MudItem>
+        <MudButton OnClick="ViewModel.AddNewShipClass">Add New Class</MudButton>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [CascadingParameter]
+    public ClassesViewModel ViewModel { get; set; }
+}

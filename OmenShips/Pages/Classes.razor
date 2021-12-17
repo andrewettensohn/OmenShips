@@ -1,0 +1,36 @@
+﻿@page "/classes"
+
+<MudGrid>
+    <MudItem>
+        <MudGrid>
+            <MudExpansionPanel Text="New Ship Class">
+                <CascadingValue Value="@_vm">
+                    <ShipClassInput />
+                </CascadingValue>
+            </MudExpansionPanel>
+        </MudGrid>
+    </MudItem>
+    <MudItem>
+        <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Slots</td>
+                <td>Base Stealth</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(StarshipClass shipClass in _vm.ShipClasses)
+            {
+                <tr>
+                    <td>@shipClass.Name</td>
+                    <td>@shipClass.Description</td>
+                    <td>@shipClass.Slots</td>
+                    <td>@shipClass.BaseStealth</td>
+                </tr>
+            }
+    </tbody>
+</MudSimpleTable>
+    </MudItem>
+</MudGrid>
