@@ -8,7 +8,7 @@
         @if(_vm.Ships.Any())
         {
             <MudItem>
-                <MudSelect Label="Select Ship" @bind-Value="_vm.SelectedShip" ToStringFunc="_vm.StarshipNameConverter">
+                <MudSelect Label="Select Ship" @bind-Value="_vm.SelectedShip" ToStringFunc="OmenConverters.StarshipNameConverter">
                     @foreach (Starship ship in _vm.Ships)
                     {
                         <MudSelectItem Value="@ship" />
@@ -17,15 +17,20 @@
             </MudItem>
         }
     </MudGrid>
-    <MudGrid>
         @if(_vm.SelectedShip != null)
         {
-            @foreach(ShipModule module in _vm.SelectedShip?.Modules)
+            <MudGrid>
+                <MudItem>
+                    <StarshipStats ViewModel="_vm.StarshipStatsViewModel" />
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+            @foreach(ModuleSlotViewModel vm in _vm.ModuleSlotViewModels)
             {
-                <MudItem xs="12">
-                    <ModuleSlot ShipModule="module" />
+                <MudItem xs="5">
+                    <ModuleSlot ViewModel="vm" />
                 </MudItem>
             }
+            </MudGrid>
         }
-    </MudGrid>
 </CascadingValue>

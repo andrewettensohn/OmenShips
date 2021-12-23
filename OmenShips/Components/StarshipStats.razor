@@ -1,0 +1,15 @@
+﻿<MudGrid>
+    <MudItem>
+        <MudCard>
+            <MudCardContent>
+                <MudChart ChartType="ChartType.Donut" Width="300px" Height="300px" @bind-SelectedIndex="ViewModel.ChartIndex" InputData="ViewModel.PowerGridData" InputLabels="ViewModel.PowerGridLabels"></MudChart>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem>
+        <MudCardContent>
+            <MudText></MudText>
+        </MudCardContent>
+    </MudItem>
+</MudGrid>
+

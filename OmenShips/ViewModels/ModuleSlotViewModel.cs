@@ -1,4 +1,7 @@
-﻿using OmenModels;
+﻿using Microsoft.AspNetCore.Components;
+using OmenModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OmenShips.ViewModels
 {
@@ -15,6 +18,16 @@ namespace OmenShips.ViewModels
             }
         }
 
+        private List<ShipModule> _shipModuleList;
+        public List<ShipModule> ShipModuleList
+        {
+            get => _shipModuleList;
+            set
+            {
+                SetValue(ref _shipModuleList, value);
+            }
+        }
+
         private bool _isEmptyModule;
         public bool IsEmptyModule
         {
@@ -25,13 +38,32 @@ namespace OmenShips.ViewModels
             }
         }
 
-        public FitsViewModel ParentViewModel;
+        private readonly FitsViewModel _parentViewModel;
 
         public ModuleSlotViewModel(FitsViewModel fitsViewModel, ShipModule module)
         {
-            ParentViewModel = fitsViewModel;
+            _parentViewModel = fitsViewModel;
             _shipModule = module;
+            _shipModuleList = _parentViewModel.ShipModules;
             _isEmptyModule = module.Category == ModuleCategory.EmptySlot;
+        }
+
+        public async Task OnModuleSelectedConfirmation()
+        {
+            IsEmptyModule = ShipModule.Category == ModuleCategory.EmptySlot;
+
+            if(!IsEmptyModule)
+            {
+                await _parentViewModel.AddModuleToShip(ShipModule);
+            }
+        }
+
+        public async Task OnModuleUninstall()
+        {
+            if(!IsEmptyModule)
+            {
+                await _parentViewModel.UninstallModule(ShipModule);
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using OmenModels;
-using OmenModels.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +20,6 @@ namespace OmenShips.Interfaces
 
         Task<bool> AddShipModule(ShipModule model);
 
-        Task<bool> AddStarship(Starship model);
+        Task<bool> AddOrUpdateStarship(Starship model);
     }
 }

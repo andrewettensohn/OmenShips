@@ -1,5 +1,4 @@
 ﻿using OmenModels;
-using OmenModels.Interfaces;
 using OmenShips.Interfaces;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -43,7 +42,7 @@ namespace OmenShips.Data
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AddStarship(Starship model)
+        public async Task<bool> AddOrUpdateStarship(Starship model)
         {
             HttpResponseMessage response = await PostRequestForResponseAsync(model, _baseRoute, _starshipController, "Starship");
 

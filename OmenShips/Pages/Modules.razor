@@ -9,52 +9,16 @@
         </MudExpansionPanel>
     </MudItem>
     <MudItem>
-        <MudSimpleTable Style="overflow-x: auto;">
-    <thead>
-        <tr>
-            <td>Name</td>
-            <td>Description</td>
-            <td>Slot Spaces Required</td>
-            <td>Power Requirement</td>
-            <td>Category</td>
-            <td>Damage Type</td>
-            <td>Damage</td>
-            <td>Armor</td>
-            <td>Shield</td>
-            <td>Speed</td>
-            <td>Volley</td>
-            <td>Range</td>
-            <td>Missile Speed</td>
-            <td>Value</td>
-            <td>Stealth</td>
-            <td>Sensor</td>
-            <td>Is Illegal</td>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach(ShipModule module in _vm.Modules)
-    {
-        <tr>
-            <td>@module.Name</td>
-            <td>@module.Description</td>
-            <td>@module.SlotSpacesRequired</td>
-            <td>@module.PowerRequirement</td>
-            <td>@module.Category</td>
-            <td>@module.DamageType</td>
-            <td>@module.Damage</td>
-            <td>@module.Armor</td>
-            <td>@module.Shield</td>
-            <td>@module.Speed</td>
-            <td>@module.Volley</td>
-            <td>@module.Range</td>
-            <td>@module.MissileSpeed</td>
-            <td>@module.Value</td>
-            <td>@module.Stealth</td>
-            <td>@module.Sensor</td>
-            <td>@module.IsIllegal</td>
-        </tr>
-    }
-    </tbody>
-</MudSimpleTable>
+    <MudSimpleTable Style="overflow-x: auto; overflow-y: auto; max-height: 200px">
+        <thead>
+            <ShipModuleInfoHeader />
+        </thead>
+        <tbody>
+        @foreach(ShipModule module in _vm.Modules)
+        {
+            <ShipModuleInfoRow Module="module" />
+        }
+        </tbody>
+    </MudSimpleTable>
     </MudItem>
 </MudGrid>

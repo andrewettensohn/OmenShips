@@ -1,25 +1,38 @@
 ﻿<MudCard>
     <MudCardHeader>
         <CardHeaderContent>
-        @if(_vm.IsEmptyModule)
+        @if(ViewModel.IsEmptyModule)
         {
-            <MudText Typo="Typo.body2">Open Module Slot</MudText>
+            <MudText Typo="Typo.h5">Open Module Slot</MudText>
         }
         else
         {
-             <MudText Typo="Typo.body2">@_vm.ShipModule.Name</MudText>   
+             <MudText Typo="Typo.h5">@ViewModel.ShipModule.Name</MudText>   
         }
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
-        @if(_vm.IsEmptyModule)
+        @if(ViewModel.IsEmptyModule)
         {
-            <MudSelect Label="Select Ship" @onchange="_vm.ParentViewModel.AddModuleToShip" ToStringFunc="_vm.ParentViewModel.ModuleNameConverter">
-                @foreach (ShipModule module in _vm.ParentViewModel.ShipModules)
+            <MudSelect Label="Select Module" @bind-Value="ViewModel.ShipModule" ToStringFunc="OmenConverters.ModuleNameConverter">
+                @foreach (ShipModule module in ViewModel.ShipModuleList)
                 {
                     <MudSelectItem Value="module" />
                 }
             </MudSelect>
+
+            <MudButton @onclick="ViewModel.OnModuleSelectedConfirmation">Confirm Selection</MudButton>
+        }
+        else
+        {
+            <MudSimpleTable Style="overflow-x: auto; overflow-y: auto; max-height: 200px" >
+                <tbody>
+                    <ShipModuleStatBlock Module="ViewModel.ShipModule" />
+                </tbody>
+            </MudSimpleTable>
         }
     </MudCardContent>
+    <MudCardActions>
+        <MudButton @onclick="ViewModel.OnModuleUninstall">Uninstall Module</MudButton>
+    </MudCardActions>
 </MudCard>

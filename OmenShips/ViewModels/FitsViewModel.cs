@@ -77,39 +77,44 @@ namespace OmenShips.ViewModels
             set
             {
                 SetValue(ref _selectedShip, value);
+                GetModuleSlotViewModelsForSelectedShip();
+                StarshipStatsViewModel = new StarshipStatsViewModel(value);
             }
         }
 
-        private Guid _selectedShipId;
-        public Guid SelectedShipId
+        public StarshipStatsViewModel _starshipStatsViewModel;
+        public StarshipStatsViewModel StarshipStatsViewModel
         {
-            get => _selectedShipId;
+            get => _starshipStatsViewModel;
             set
             {
-                SetValue(ref _selectedShipId, value);
-                SelectedShip = Ships.FirstOrDefault(x => x.Id == value);
+                SetValue(ref _starshipStatsViewModel, value);
             }
         }
 
-        private Starship _newShip = new Starship();
-        public Starship NewShip
+        public List<ModuleSlotViewModel> _moduleSlotViewModels;
+        public List<ModuleSlotViewModel> ModuleSlotViewModels
         {
-            get => _newShip;
+            get => _moduleSlotViewModels;
             set
             {
-                SetValue(ref _selectedShip, value);
+                SetValue(ref _moduleSlotViewModels, value);
             }
         }
 
-        public Func<Starship, string> StarshipNameConverter = p => p?.Name;
-
-        public Func<StarshipHull, string> HullNameConverter = p => p?.Name;
-
-        public Func<StarshipClass, string> ClassNameConverter = p => p?.Name;
-
-        public Func<ShipModule, string> ModuleNameConverter = p => p?.Name;
+        private string _newShipName;
+        public string NewShipName
+        {
+            get => _newShipName;
+            set
+            {
+                SetValue(ref _newShipName, value);
+            }
+        }
 
         private readonly IOmenTestRestService _omenTestRestService;
+
+        private ShipModule _emptyModule;
 
         public FitsViewModel(IOmenTestRestService omenTestRestService)
         {
@@ -123,6 +128,8 @@ namespace OmenShips.ViewModels
             Classes = await _omenTestRestService.GetStarshipClasses();
             ShipModules = await _omenTestRestService.GetShipModules();
 
+            _emptyModule = ShipModules.FirstOrDefault(x => x.Category == ModuleCategory.EmptySlot);
+
             if (Ships == null || !Ships.Any())
             {
                 Ships = new List<Starship>();
@@ -131,46 +138,73 @@ namespace OmenShips.ViewModels
             SelectedShip = Ships.FirstOrDefault();
             NewShipSelectedClass = Classes.FirstOrDefault();
             NewShipSelectedHull = Hulls.FirstOrDefault();
+
+            if(SelectedShip != null)
+            {
+                GetModuleSlotViewModelsForSelectedShip();
+            }
         }
 
         public async Task AddNewShip()
         {
-            NewShip.Hull = NewShipSelectedHull;
-            NewShip.StarshipClass = NewShipSelectedClass;
-            NewShip.Modules = new List<ShipModule>();
-
-            ShipModule emptyModule = ShipModules.FirstOrDefault(x => x.Category == ModuleCategory.EmptySlot);
-
-            if(emptyModule != null)
+            Starship submittedShip = new Starship
             {
-                for (int i = 0; i < NewShip.StarshipClass.Slots; i++)
+                Name = NewShipName,
+                Hull = NewShipSelectedHull,
+                StarshipClass = NewShipSelectedClass,
+                Modules = new List<ShipModule>()
+            };
+
+            if(_emptyModule != null)
+            {
+                for (int i = 0; i < submittedShip.StarshipClass.Slots; i++)
                 {
-                    NewShip.Modules.Add(emptyModule);
+                    submittedShip.Modules.Add(_emptyModule);
                 }
             }
 
-            bool isSuccess = await _omenTestRestService.AddStarship(NewShip);
+            bool isSuccess = await _omenTestRestService.AddOrUpdateStarship(submittedShip);
 
             if(isSuccess)
             {
                 Ships = await _omenTestRestService.GetStarships();
-                SelectedShip = NewShip;
+                SelectedShip = submittedShip;
+                GetModuleSlotViewModelsForSelectedShip();
             }
         }
 
-        public void AddModuleToShip(ChangeEventArgs args)
+        public async Task AddModuleToShip(ShipModule newModule)
         {
-            bool isGuid = Guid.TryParse(args.Value.ToString(), out Guid newModuleId);
+            int emptyModuleIndex = SelectedShip.Modules.FindIndex(x => x.Category == ModuleCategory.EmptySlot);
+            SelectedShip.Modules.RemoveAt(emptyModuleIndex);
+            SelectedShip.Modules.Add(newModule);
 
-            if (!isGuid) return;
+            SetSelectedShip();
 
-            ShipModule newModule = ShipModules.FirstOrDefault(x => x.Id == newModuleId);
-            
-            if(newModule != null)
-            {
-                SelectedShip.Modules.Add(newModule);
-                SelectedShip = SelectedShip;
-            }
+            await _omenTestRestService.AddOrUpdateStarship(SelectedShip);
+        }
+
+        public async Task UninstallModule(ShipModule moduleToUninstall)
+        {
+            SelectedShip.Modules.Remove(moduleToUninstall);
+            SelectedShip.Modules.Add(_emptyModule);
+            SetSelectedShip();
+
+            await _omenTestRestService.AddOrUpdateStarship(SelectedShip);
+        }
+
+        private void SetSelectedShip()
+        {
+            OnPropertyChanged(nameof(SelectedShip));
+            GetModuleSlotViewModelsForSelectedShip();
+            StarshipStatsViewModel = new StarshipStatsViewModel(SelectedShip);
+        }
+
+        private void GetModuleSlotViewModelsForSelectedShip()
+        {
+            ModuleSlotViewModels = new List<ModuleSlotViewModel>();
+            SelectedShip.Modules.ForEach(x => ModuleSlotViewModels.Add(new ModuleSlotViewModel(this, x)));
+            OnPropertyChanged(nameof(ModuleSlotViewModels));
         }
     }
 }
