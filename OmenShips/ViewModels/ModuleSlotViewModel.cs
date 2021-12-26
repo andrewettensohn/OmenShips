@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using OmenModels;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OmenShips.ViewModels
@@ -50,17 +51,12 @@ namespace OmenShips.ViewModels
 
         public async Task OnModuleSelectedConfirmation()
         {
-            IsEmptyModule = ShipModule.Category == ModuleCategory.EmptySlot;
-
-            if(!IsEmptyModule)
-            {
-                await _parentViewModel.AddModuleToShip(ShipModule);
-            }
+            await _parentViewModel.AddModuleToShip(ShipModule);
         }
 
         public async Task OnModuleUninstall()
         {
-            if(!IsEmptyModule)
+            if (!IsEmptyModule)
             {
                 await _parentViewModel.UninstallModule(ShipModule);
             }

@@ -2,14 +2,47 @@
     <MudItem>
         <MudCard>
             <MudCardContent>
+                <MudIcon Icon="@Icons.Material.Outlined.BatteryChargingFull" />
                 <MudChart ChartType="ChartType.Donut" Width="300px" Height="300px" @bind-SelectedIndex="ViewModel.ChartIndex" InputData="ViewModel.PowerGridData" InputLabels="ViewModel.PowerGridLabels"></MudChart>
             </MudCardContent>
         </MudCard>
     </MudItem>
     <MudItem>
-        <MudCardContent>
-            <MudText></MudText>
-        </MudCardContent>
+        <MudCard>
+            <MudCardContent>
+                <MudList Style="overflow-x: auto; overflow-y: auto; max-height: 375px">
+                    @foreach(ShipModule module in ViewModel.Starship.Modules)
+                    {
+                        <MudListItem>@module.Name</MudListItem>
+                    }
+                </MudList>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+<MudGrid>
+    <MudItem>
+        <MudCard>
+            <MudCardContent>
+                <MudGrid>
+                    <MudItem>
+                        <MudChip Icon="@Icons.Material.Outlined.WifiTethering" Color="Color.Dark">Sensor @ViewModel.SensorStrength</MudChip>
+                        <MudChip Icon="@Icons.Material.Outlined.BlurOn" Color="Color.Dark">Stealth @ViewModel.StealthRating</MudChip>
+                        <MudChip Icon="@Icons.Material.Outlined.DoubleArrow" Color="Color.Dark">Speed @ViewModel.SpeedRating</MudChip>
+                    </MudItem>
+                    <MudItem>
+                        <MudChip Icon="@Icons.Material.Outlined.Adjust" Color="Color.Dark">Shield @ViewModel.ShieldStrength</MudChip>
+                        <MudChip Icon="@Icons.Material.Outlined.AddModerator" Color="Color.Dark">Armor @ViewModel.ArmorStrength</MudChip>
+                    </MudItem>
+                    <MudItem>
+                        <MudChip Icon="@Icons.Material.Outlined.WbSunny" Color="Color.Dark">Plasma @ViewModel.PlasmaDamage</MudChip>
+                        <MudChip Icon="@Icons.Material.Outlined.Bolt" Color="Color.Dark">Rail @ViewModel.RailgunDamage</MudChip>
+                        <MudChip Icon="@Icons.Material.Outlined.DirectionsRailway" Color="Color.Dark">Missile @ViewModel.MissileDamage</MudChip>
+                        <MudChip Icon="@Icons.Material.Outlined.Api" Color="Color.Dark">Projectile @ViewModel.ProjectileDamage</MudChip>
+                    </MudItem>
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
     </MudItem>
 </MudGrid>
 

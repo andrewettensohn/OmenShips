@@ -42,11 +42,9 @@ namespace OmenShips.Data
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AddOrUpdateStarship(Starship model)
+        public async Task<Starship> AddOrUpdateStarship(Starship model)
         {
-            HttpResponseMessage response = await PostRequestForResponseAsync(model, _baseRoute, _starshipController, "Starship");
-
-            return response.IsSuccessStatusCode;
+            return await PostRequestForItemAsync(model, _baseRoute, _starshipController, "Starship");
         }
     }
 }

@@ -1,6 +1,31 @@
 ﻿@page "/"
 
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
+<MudText Typo="Typo.h3" GutterBottom="true">Omen</MudText>
+<MudText Class="mb-3">Welcome to the testing app for the new Omen table-top RPG.</MudText>
+<MudAlert Severity="Severity.Normal">If you have ideas for the game go here: <MudLink Href="https://docs.google.com/document/d/1XR_b6rYvwUhk0gSCIBpFTf3wmafa_9cVQA2oebbrZtE/edit" Typo="Typo.body2" Color="Color.Inherit"><b>Google Doc</b></MudLink></MudAlert>
+<MudAlert Class="mb-8" Severity="Severity.Normal">If you have an issue with this app go here and open an issue: <MudLink Href="https://github.com/andrewettensohn/OmenShips" Typo="Typo.body2" Color="Color.Inherit"><b>GitHub Repo</b></MudLink></MudAlert>
+
+<MudText Class="mb-3">The inital purpose of this app is to test space ship combat. You can build a ship by going to the fitted ships page. The data in this app will be cleaned every playtest and we will only keep the modules that are fun and balanced.</MudText>
+
+<MudText Class="mb-3">Ships are made of three things:</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.AddCircle" /> Class: This relates to this size of the ship. A larger ship move slower and is less stealthly but has more slots for modules.</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.AddCircle" /> Hull: The skeleton of the ship. The hull determines the number of hitpoints a ship has and any special abilities.</MudText>
+<MudText Class="mb-8"><MudIcon Icon="@Icons.Material.Outlined.AddCircle" /> Modules: A module could be a gun, armor, shields, reactor, engine..etc.</MudText>
+
+<MudText Class="mb-3">Modules are broken down into the following categories:</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.WifiTethering" /> Sensor: These modules are the eyes of the ship. Without a high sensor rating, your ship will be unable to see other ships.</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.BlurOn" /> Stealth/Black Ops: A high stealth score means your ship can remain hidden and thus safe from attack.</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.DoubleArrow" /> Speed: The maximum amount of hex spaces your ship can move on the table top per turn.</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.Adjust" /> Shield: These modules negate damage done by plasma weapons.</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.AddModerator" /> Armor: These modules negate damage done by railgun weapons.</MudText>
+
+<MudText><MudIcon Icon="@Icons.Material.Outlined.WbSunny" /> Plasma: These weapons are good against armor and bad against shields, they typically have short ranges and deal high damage.</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.Bolt" /> Rail: These weapons are good against shields and bad against armor, they typically have long ranges and deal low damage.</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.DirectionsRailway" /> Missile: These weapons are cannot be negated by armor or shields. Whenever a missile weapon is fired, a token is added to the table top that has its own speed and can be shot down by projectile weapons.</MudText>
+<MudText Class="mb-8"><MudIcon Icon="@Icons.Material.Outlined.Api" /> Missile: These are the only weapons that can target missiles. They deal low damage and are short range and their damage is negated by armor.</MudText>
+
+<MudText Class="mb-3">These module categories are planned to be added later:</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.Memory" /> Electronic Warfare (EWAR): Modules that assist with hacking enemy ships or protecting against hacks.</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.HouseSiding" /> Hanger: Allows for control of fighter squadrons. Squadrons get their own token on the table-top and have their own stats and modules.</MudText>
+<MudText><MudIcon Icon="@Icons.Material.Outlined.BugReport" /> Drone Control: Allows for control of drone squadrons which work similar to fighters.</MudText>

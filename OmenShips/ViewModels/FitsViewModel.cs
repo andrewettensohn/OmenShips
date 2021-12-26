@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MongoDB.Bson;
 using OmenModels;
 using OmenShips.Interfaces;
 using System;
@@ -163,9 +164,9 @@ namespace OmenShips.ViewModels
                 }
             }
 
-            bool isSuccess = await _omenTestRestService.AddOrUpdateStarship(submittedShip);
+            submittedShip = await _omenTestRestService.AddOrUpdateStarship(submittedShip);
 
-            if(isSuccess)
+            if(!string.IsNullOrEmpty(submittedShip.Id))
             {
                 Ships = await _omenTestRestService.GetStarships();
                 SelectedShip = submittedShip;
@@ -175,8 +176,20 @@ namespace OmenShips.ViewModels
 
         public async Task AddModuleToShip(ShipModule newModule)
         {
-            int emptyModuleIndex = SelectedShip.Modules.FindIndex(x => x.Category == ModuleCategory.EmptySlot);
-            SelectedShip.Modules.RemoveAt(emptyModuleIndex);
+            int availableSlots = SelectedShip.Modules.Count(x => x.Category == ModuleCategory.EmptySlot);
+
+            if(newModule.SlotSpacesRequired > availableSlots) return;
+
+            int emptyModulesFilled = 0;
+            for(int i = 0; i < SelectedShip.Modules.Count; i++)
+            {
+                if(emptyModulesFilled < newModule.SlotSpacesRequired && SelectedShip.Modules[i].Category == ModuleCategory.EmptySlot)
+                {
+                    SelectedShip.Modules.RemoveAt(i);
+                    emptyModulesFilled++;
+                }
+            }
+
             SelectedShip.Modules.Add(newModule);
 
             SetSelectedShip();
@@ -187,7 +200,12 @@ namespace OmenShips.ViewModels
         public async Task UninstallModule(ShipModule moduleToUninstall)
         {
             SelectedShip.Modules.Remove(moduleToUninstall);
-            SelectedShip.Modules.Add(_emptyModule);
+
+            for(int i = 0; i < moduleToUninstall.SlotSpacesRequired; i++)
+            {
+                SelectedShip.Modules.Add(_emptyModule);
+            }
+
             SetSelectedShip();
 
             await _omenTestRestService.AddOrUpdateStarship(SelectedShip);

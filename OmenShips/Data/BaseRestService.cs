@@ -56,7 +56,7 @@ namespace OmenShips.Data
             }
         }
 
-        public async Task<HttpResponseMessage> PostRequestForResponseAsync(object content, string baseRoute, string controller, string endpoint)
+        protected async Task<HttpResponseMessage> PostRequestForResponseAsync(object content, string baseRoute, string controller, string endpoint)
         {
             try
             {
@@ -74,6 +74,33 @@ namespace OmenShips.Data
             {
                 Console.WriteLine(ex);
                 return new HttpResponseMessage { StatusCode = System.Net.HttpStatusCode.BadRequest };
+            }
+        }
+
+        protected async Task<T> PostRequestForItemAsync<T>(T content, string baseRoute, string controller, string endpoint)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(content, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+
+                StringContent payload = new StringContent(json, Encoding.UTF8, "application/json");
+                payload.Headers.ContentType.CharSet = string.Empty;
+
+                HttpResponseMessage response = await _http.PostAsync($"{baseRoute}/{controller}/{endpoint}", payload);
+
+                string responseString = await response.Content.ReadAsStringAsync();
+                JObject responseJson = JObject.Parse(responseString);
+                T responseContent = responseJson.ToObject<T>();
+
+                return responseContent;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return default;
             }
         }
     }
