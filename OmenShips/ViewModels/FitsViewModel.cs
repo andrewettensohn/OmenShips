@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MongoDB.Bson;
+using MudBlazor;
 using OmenModels;
 using OmenShips.Interfaces;
 using System;
@@ -113,13 +114,16 @@ namespace OmenShips.ViewModels
             }
         }
 
+        public readonly ISnackbar Snackbar;
+
         private readonly IOmenTestRestService _omenTestRestService;
 
         private ShipModule _emptyModule;
 
-        public FitsViewModel(IOmenTestRestService omenTestRestService)
+        public FitsViewModel(IOmenTestRestService omenTestRestService, ISnackbar snackbar)
         {
             _omenTestRestService = omenTestRestService;
+            Snackbar = snackbar;
         }
 
         public async Task LoadViewModelAsync()
@@ -172,13 +176,27 @@ namespace OmenShips.ViewModels
                 SelectedShip = submittedShip;
                 GetModuleSlotViewModelsForSelectedShip();
             }
+            else
+            {
+                Snackbar.Add("Failed to add new module.", Severity.Error);
+            }
         }
 
         public async Task AddModuleToShip(ShipModule newModule)
         {
             int availableSlots = SelectedShip.Modules.Count(x => x.Category == ModuleCategory.EmptySlot);
 
-            if(newModule.SlotSpacesRequired > availableSlots) return;
+            if(newModule.SlotSpacesRequired > availableSlots)
+            {
+                Snackbar.Add("Not enough module slots to fit this module.", Severity.Warning);
+                return;
+            }
+
+            if(newModule.PowerRequirement + StarshipStatsViewModel.UsedPower > StarshipStatsViewModel.ProducedPower)
+            {
+                Snackbar.Add("Not enough power to fit this module.", Severity.Warning);
+                return;
+            }
 
             int emptyModulesFilled = 0;
             for(int i = 0; i < SelectedShip.Modules.Count; i++)

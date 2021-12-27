@@ -3,6 +3,7 @@
         <MudCard>
             <MudCardContent>
                 <MudIcon Icon="@Icons.Material.Outlined.BatteryChargingFull" />
+                <MudText>@ViewModel.PowerGridData[1] / @ViewModel.PowerGridData[0]</MudText>
                 <MudChart ChartType="ChartType.Donut" Width="300px" Height="300px" @bind-SelectedIndex="ViewModel.ChartIndex" InputData="ViewModel.PowerGridData" InputLabels="ViewModel.PowerGridLabels"></MudChart>
             </MudCardContent>
         </MudCard>
@@ -11,6 +12,8 @@
         <MudCard>
             <MudCardContent>
                 <MudList Style="overflow-x: auto; overflow-y: auto; max-height: 375px">
+                    <MudListItem>@ViewModel.Starship.StarshipClass.Name Class</MudListItem>
+                    <MudListItem>@ViewModel.UnusedSlots Unused Slots</MudListItem>
                     @foreach(ShipModule module in ViewModel.Starship.Modules)
                     {
                         <MudListItem>@module.Name</MudListItem>
@@ -26,6 +29,7 @@
             <MudCardContent>
                 <MudGrid>
                     <MudItem>
+                        <MudChip Icon="@Icons.Material.Outlined.AllOut" Color="Color.Dark">Hitpoints @ViewModel.Starship.Hull.Hitpoints</MudChip>
                         <MudChip Icon="@Icons.Material.Outlined.WifiTethering" Color="Color.Dark">Sensor @ViewModel.SensorStrength</MudChip>
                         <MudChip Icon="@Icons.Material.Outlined.BlurOn" Color="Color.Dark">Stealth @ViewModel.StealthRating</MudChip>
                         <MudChip Icon="@Icons.Material.Outlined.DoubleArrow" Color="Color.Dark">Speed @ViewModel.SpeedRating</MudChip>

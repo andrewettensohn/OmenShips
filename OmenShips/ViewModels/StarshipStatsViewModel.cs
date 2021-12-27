@@ -41,17 +41,22 @@ namespace OmenShips.ViewModels
 
         public int Value { get; set; }
 
+        public int ProducedPower { get; set; }
+        public int UsedPower { get; set; }
 
-        public string[] PowerGridLabels = { "Available Power", "Used Power" };
+        public int UnusedSlots { get; set; }
+
+
+        public string[] PowerGridLabels = { "Produced Power", "Used Power" };
 
         public StarshipStatsViewModel(Starship starship)
         {
             _starship = starship;
 
             //Set Power Grid
-            int potentialPower = starship.Modules.Sum(x => x.PowerProduction);
-            int usedPower = starship.Modules.Sum(x => x.PowerRequirement);
-            _powerGridData = new double[] { potentialPower, usedPower };
+            ProducedPower = starship.Modules.Sum(x => x.PowerProduction);
+            UsedPower = starship.Modules.Sum(x => x.PowerRequirement);
+            _powerGridData = new double[] { ProducedPower, UsedPower };
 
             PlasmaDamage = starship.Modules.Where(x => x.DamageType == DamageType.Plasma).Sum(x => x.Damage);
             RailgunDamage = starship.Modules.Where(x => x.DamageType == DamageType.Railgun).Sum(x => x.Damage);
@@ -63,9 +68,11 @@ namespace OmenShips.ViewModels
 
             SensorStrength = starship.Modules.Where(x => x.Category == ModuleCategory.Sensor).Sum(x => x.Sensor);
             StealthRating = starship.Modules.Where(x => x.Category == ModuleCategory.BlackOps).Sum(x => x.Stealth) + starship.StarshipClass.BaseStealth;
-            SpeedRating = starship.Modules.Sum(x => x.Speed);
+            SpeedRating = starship.Modules.Sum(x => x.Speed) + starship.StarshipClass.BaseSpeed;
 
             Value = starship.Modules.Sum(x => x.Value);
+
+            UnusedSlots = starship.Modules.Count(x => x.Category == ModuleCategory.EmptySlot);
         }
     }
 }

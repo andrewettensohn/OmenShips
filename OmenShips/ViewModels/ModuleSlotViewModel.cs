@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using OmenModels;
+using OmenShips.Pages;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,6 +41,16 @@ namespace OmenShips.ViewModels
             }
         }
 
+        private string _moduleSelectionSearch;
+        public string ModuleSelectionSearch
+        {
+            get => _moduleSelectionSearch;
+            set
+            {
+                SetValue(ref _moduleSelectionSearch, value);
+            }
+        }
+
         private readonly FitsViewModel _parentViewModel;
 
         public ModuleSlotViewModel(FitsViewModel fitsViewModel, ShipModule module)
@@ -49,9 +61,21 @@ namespace OmenShips.ViewModels
             _isEmptyModule = module.Category == ModuleCategory.EmptySlot;
         }
 
-        public async Task OnModuleSelectedConfirmation()
+        public bool ModuleSelectionFilterFunc(ShipModule module)
         {
-            await _parentViewModel.AddModuleToShip(ShipModule);
+            if (string.IsNullOrWhiteSpace(ModuleSelectionSearch)) return true;
+
+            if (module.Name.Contains(ModuleSelectionSearch, System.StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task OnModuleInstalled(ShipModule shipModule)
+        {
+            await _parentViewModel.AddModuleToShip(shipModule);
         }
 
         public async Task OnModuleUninstall()
