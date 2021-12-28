@@ -8,10 +8,14 @@ namespace OmenShips.Data
 {
     public class OmenTestRestService : BaseRestService, IOmenTestRestService
     {
-        private readonly string _baseRoute = "https://localhost:7184";
+
+        private readonly string _baseRoute;
         private readonly string _starshipController = "Starship";
 
-        public OmenTestRestService(HttpClient httpClient) : base(httpClient) { }
+        public OmenTestRestService(HttpClient httpClient, Settings settings) : base(httpClient) 
+        { 
+            _baseRoute = settings.BaseApiRoute;
+        }
 
         public async Task<List<ShipModule>> GetShipModules() => await GetRequestForListAsync<ShipModule>(_baseRoute, _starshipController, "ShipModuleList");
 

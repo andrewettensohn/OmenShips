@@ -144,7 +144,7 @@ namespace OmenShips.ViewModels
             NewShipSelectedClass = Classes.FirstOrDefault();
             NewShipSelectedHull = Hulls.FirstOrDefault();
 
-            if(SelectedShip != null)
+            if (SelectedShip != null)
             {
                 GetModuleSlotViewModelsForSelectedShip();
             }
@@ -192,7 +192,7 @@ namespace OmenShips.ViewModels
                 return;
             }
 
-            if(newModule.PowerRequirement + StarshipStatsViewModel.UsedPower > StarshipStatsViewModel.ProducedPower)
+            if(newModule.PowerRequirement + StarshipStatsViewModel.UsedPower > StarshipStatsViewModel.ProducedPower && newModule.Category != ModuleCategory.Reactor)
             {
                 Snackbar.Add("Not enough power to fit this module.", Severity.Warning);
                 return;

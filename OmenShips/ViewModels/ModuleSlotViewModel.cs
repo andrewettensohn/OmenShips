@@ -51,6 +51,16 @@ namespace OmenShips.ViewModels
             }
         }
 
+        public ShipModulesViewModel _shipModulesViewModel;
+        public ShipModulesViewModel ShipModulesViewModel
+        {
+            get => _shipModulesViewModel;
+            set
+            {
+                SetValue(ref _shipModulesViewModel, value);
+            }
+        }
+
         private readonly FitsViewModel _parentViewModel;
 
         public ModuleSlotViewModel(FitsViewModel fitsViewModel, ShipModule module)
@@ -59,18 +69,9 @@ namespace OmenShips.ViewModels
             _shipModule = module;
             _shipModuleList = _parentViewModel.ShipModules;
             _isEmptyModule = module.Category == ModuleCategory.EmptySlot;
-        }
+            _shipModulesViewModel = new ShipModulesViewModel();
 
-        public bool ModuleSelectionFilterFunc(ShipModule module)
-        {
-            if (string.IsNullOrWhiteSpace(ModuleSelectionSearch)) return true;
-
-            if (module.Name.Contains(ModuleSelectionSearch, System.StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-
-            return false;
+            ShipModulesViewModel.LoadViewModelForFitting(this);
         }
 
         public async Task OnModuleInstalled(ShipModule shipModule)

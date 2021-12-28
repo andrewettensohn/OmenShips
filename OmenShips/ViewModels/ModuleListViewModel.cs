@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmenShips.ViewModels
 {
-    public class ModuleViewModel : BaseViewModel
+    public class ModuleListViewModel : BaseViewModel
     {
         private List<ShipModule> _modules = new List<ShipModule>();
         public List<ShipModule> Modules
@@ -28,11 +28,22 @@ namespace OmenShips.ViewModels
             }
         }
 
+        public ShipModulesViewModel _shipModulesViewModel;
+        public ShipModulesViewModel ShipModulesViewModel
+        {
+            get => _shipModulesViewModel;
+            set
+            {
+                SetValue(ref _shipModulesViewModel, value);
+            }
+        }
+
         private readonly IOmenTestRestService _omenTestRestService;
 
-        public ModuleViewModel(IOmenTestRestService omenTestRestService)
+        public ModuleListViewModel(IOmenTestRestService omenTestRestService)
         {
             _omenTestRestService = omenTestRestService;
+            _shipModulesViewModel = new ShipModulesViewModel();
         }
 
         public async Task LoadViewModelAsync()
@@ -43,6 +54,8 @@ namespace OmenShips.ViewModels
             {
                 Modules = new List<ShipModule>();
             }
+
+            ShipModulesViewModel.LoadViewModelForShipModuleList(this);
         }
 
         public async Task AddNewShipModule()

@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Mudblazor.Template": {
+    "OmenShips": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

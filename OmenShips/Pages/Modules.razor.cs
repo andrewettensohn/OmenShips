@@ -10,11 +10,11 @@ namespace OmenShips.Pages
         [Inject]
         public IOmenTestRestService OmenTestRestService { get; set; }
 
-        private ModuleViewModel _vm { get; set; }
+        private ModuleListViewModel _vm { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
-            _vm = new ModuleViewModel(OmenTestRestService);
+            _vm = new ModuleListViewModel(OmenTestRestService);
             await _vm.LoadViewModelAsync();
 
             _vm.PropertyChanged += (sender, e) => StateHasChanged();
