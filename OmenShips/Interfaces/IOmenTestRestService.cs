@@ -21,5 +21,7 @@ namespace OmenShips.Interfaces
         Task<bool> AddShipModule(ShipModule model);
 
         Task<Starship> AddOrUpdateStarship(Starship model);
+
+        Task<bool> DeleteStarship(string id);
     }
 }

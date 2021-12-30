@@ -229,6 +229,18 @@ namespace OmenShips.ViewModels
             await _omenTestRestService.AddOrUpdateStarship(SelectedShip);
         }
 
+        public async Task DeleteSelectedShip()
+        {
+            bool isDeleteSuccess = await _omenTestRestService.DeleteStarship(SelectedShip.Id);
+
+            if(isDeleteSuccess)
+            {
+                Ships = await _omenTestRestService.GetStarships();
+                SelectedShip = Ships.FirstOrDefault();
+                SetSelectedShip();
+            }
+        }
+
         private void SetSelectedShip()
         {
             OnPropertyChanged(nameof(SelectedShip));

@@ -103,5 +103,18 @@ namespace OmenShips.Data
                 return default;
             }
         }
+
+        protected async Task<HttpResponseMessage> DeleteRequestForResponseAsync(string id, string baseRoute, string controller, string endpoint)
+        {
+            try
+            {
+                return await _http.DeleteAsync($"{baseRoute}/{controller}/{endpoint}/{id}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return new HttpResponseMessage { StatusCode = System.Net.HttpStatusCode.BadRequest };
+            }
+        }
     }
 }

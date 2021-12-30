@@ -50,5 +50,12 @@ namespace OmenShips.Data
         {
             return await PostRequestForItemAsync(model, _baseRoute, _starshipController, "Starship");
         }
+
+        public async Task<bool> DeleteStarship(string id)
+        {
+            HttpResponseMessage response = await DeleteRequestForResponseAsync(id, _baseRoute, _starshipController, "Starship");
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }
