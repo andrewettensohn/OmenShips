@@ -1,6 +1,9 @@
 ﻿@page "/modules"
 
-<MudGrid>
+<MudSwitch Label="Edit Mode" @bind-Checked="_vm.IsEditMode" Color="Color.Primary" />
+<MudGrid Class="mb-3">
+    @if(!_vm.IsEditMode)
+    {
     <MudItem>
         <MudExpansionPanel Text="New Module">
             <CascadingValue Value="@_vm">
@@ -8,5 +11,22 @@
             </CascadingValue>
         </MudExpansionPanel>
     </MudItem>
+    }
+    else
+    {
+    <MudItem>
+        <MudExpansionPanel Text="Edit Module">
+            <MudSelect Label="Module to Edit" @bind-Value="_vm.SelectedModule" Class="mb-3">
+                @foreach (ShipModule module in _vm.Modules)
+                {
+                    <MudSelectItem Value="@module">@module.Name</MudSelectItem>
+                }
+            </MudSelect>
+            <CascadingValue Value="@_vm">
+                <ShipModuleInput />
+            </CascadingValue>   
+        </MudExpansionPanel>
+    </MudItem>   
+    }
 </MudGrid>
 <ShipModules ViewModel="_vm.ShipModulesViewModel" />

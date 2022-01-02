@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmenShips.ViewModels
 {
-    public class ModuleListViewModel : BaseViewModel
+    public class ModuleAddEditViewModel : BaseViewModel
     {
         private List<ShipModule> _modules = new List<ShipModule>();
         public List<ShipModule> Modules
@@ -18,13 +18,27 @@ namespace OmenShips.ViewModels
             }
         }
 
-        private ShipModule _newStarshipModule = new ShipModule();
-        public ShipModule NewStarshipModule
+        private ShipModule _selectedModule = new ShipModule();
+        public ShipModule SelectedModule
         {
-            get => _newStarshipModule;
+            get => _selectedModule;
             set
             {
-                SetValue(ref _newStarshipModule, value);
+                SetValue(ref _selectedModule, value);
+            }
+        }
+
+        private bool _isEditMode;
+        public bool IsEditMode
+        {
+            get => _isEditMode;
+            set
+            {
+                SetValue(ref _isEditMode, value);
+                if(value)
+                {
+                    SelectedModule = _modules.FirstOrDefault();
+                }
             }
         }
 
@@ -40,7 +54,7 @@ namespace OmenShips.ViewModels
 
         private readonly IOmenTestRestService _omenTestRestService;
 
-        public ModuleListViewModel(IOmenTestRestService omenTestRestService)
+        public ModuleAddEditViewModel(IOmenTestRestService omenTestRestService)
         {
             _omenTestRestService = omenTestRestService;
             _shipModulesViewModel = new ShipModulesViewModel();
@@ -54,20 +68,22 @@ namespace OmenShips.ViewModels
             {
                 Modules = new List<ShipModule>();
             }
-
-            ShipModulesViewModel.LoadViewModelForShipModuleList(this);
+            else
+            {
+                Modules.OrderByDescending(x => x.Name);
+                ShipModulesViewModel.LoadViewModelForShipModuleList(this);
+            }
         }
 
-        public async Task AddNewShipModule()
+        public async Task AddOrReplaceModule()
         {
-            _modules.Add(NewStarshipModule);
-            Modules = _modules;
 
-            bool isSuccess = await _omenTestRestService.AddShipModule(NewStarshipModule);
+            bool isSuccess = await _omenTestRestService.AddOrReplaceShipModule(SelectedModule);
 
             if (isSuccess)
             {
-                NewStarshipModule = new ShipModule();
+                Modules = await _omenTestRestService.GetShipModules();
+                ShipModulesViewModel.LoadViewModelForShipModuleList(this);
             }
         }
     }

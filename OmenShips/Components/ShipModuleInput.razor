@@ -1,12 +1,12 @@
 ﻿<MudGrid>
     <MudItem>
-        <MudTextField @bind-Value="ViewModel.NewStarshipModule.Name" Label="Name" Variant="Variant.Outlined" />
+        <MudTextField @bind-Value="ViewModel.SelectedModule.Name" Label="Name" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudTextField @bind-Value="ViewModel.NewStarshipModule.Description" Label="Description" Lines="3" Variant="Variant.Outlined" />
+        <MudTextField @bind-Value="ViewModel.SelectedModule.Description" Label="Description" Lines="3" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem xs="12">
-        <MudSelect Label="Select Module Type" @bind-Value="ViewModel.NewStarshipModule.Category">
+        <MudSelect Label="Select Module Type" @bind-Value="ViewModel.SelectedModule.Category">
             @foreach (ModuleCategory item in Enum.GetValues(typeof(ModuleCategory)))
             {
                 <MudSelectItem Value="@item">@item</MudSelectItem>
@@ -14,7 +14,7 @@
         </MudSelect>
     </MudItem>
     <MudItem xs="12">
-        <MudSelect Label="Select Damage Type" @bind-Value="ViewModel.NewStarshipModule.DamageType">
+        <MudSelect Label="Select Damage Type" @bind-Value="ViewModel.SelectedModule.DamageType">
             @foreach (DamageType item in Enum.GetValues(typeof(DamageType)))
             {
                 <MudSelectItem Value="@item">@item</MudSelectItem>
@@ -22,55 +22,55 @@
         </MudSelect>
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.SlotSpacesRequired" Label="Slot Spaces Required" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.SlotSpacesRequired" Label="Slot Spaces Required" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.PowerRequirement" Label="Power Requirement" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.PowerRequirement" Label="Power Requirement" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.PowerProduction" Label="Power Production" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.PowerProduction" Label="Power Production" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.Damage" Label="Damage" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.Damage" Label="Damage" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.Armor" Label="Armor" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.Armor" Label="Armor" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.Shield" Label="Shield" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.Shield" Label="Shield" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.Speed" Label="Speed" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.Speed" Label="Speed" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.Volley" Label="Volley" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.Volley" Label="Volley" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.Range" Label="Range" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.Range" Label="Range" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.MissileSpeed" Label="Missile Speed" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.MissileSpeed" Label="Missile Speed" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.Value" Label="Value" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.Value" Label="Value" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.Stealth" Label="Stealth" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.Stealth" Label="Stealth" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudNumericField @bind-Value="ViewModel.NewStarshipModule.Sensor" Label="Sensor" Variant="Variant.Outlined" />
+        <MudNumericField @bind-Value="ViewModel.SelectedModule.Sensor" Label="Sensor" Variant="Variant.Outlined" />
     </MudItem>
     <MudItem>
-        <MudCheckBox @bind-Checked="@ViewModel.NewStarshipModule.IsIllegal" Label="Is Illegal?"></MudCheckBox>
+        <MudCheckBox @bind-Checked="@ViewModel.SelectedModule.IsIllegal" Label="Is Illegal?"></MudCheckBox>
     </MudItem>
 </MudGrid>
 <MudGrid>
     <MudItem>
-        <MudButton OnClick="ViewModel.AddNewShipModule">Add New Module</MudButton>
+        <MudButton OnClick="ViewModel.AddOrReplaceModule">Submit</MudButton>
     </MudItem>
 </MudGrid>
 
 @code {
     [CascadingParameter]
-    public ModuleListViewModel ViewModel { get; set; }
+    public ModuleAddEditViewModel ViewModel { get; set; }
 }

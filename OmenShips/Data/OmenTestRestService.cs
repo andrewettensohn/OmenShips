@@ -39,7 +39,7 @@ namespace OmenShips.Data
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AddShipModule(ShipModule model)
+        public async Task<bool> AddOrReplaceShipModule(ShipModule model)
         {
             HttpResponseMessage response = await PostRequestForResponseAsync(model, _baseRoute, _starshipController, "ShipModule");
 

@@ -52,7 +52,7 @@ namespace OmenShips.ViewModels
             _slotViewModel = moduleSlotViewModel;
         }
 
-        public void LoadViewModelForShipModuleList(ModuleListViewModel shipModulesViewModel)
+        public void LoadViewModelForShipModuleList(ModuleAddEditViewModel shipModulesViewModel)
         {
             Modules = shipModulesViewModel.Modules;
         }
