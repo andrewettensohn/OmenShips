@@ -5,8 +5,8 @@
 </MudGrid>
 <MudGrid>
     <MudItem xs="12">
-        <MudSelect Label="Select Hull" @bind-Value="ViewModel.NewShipSelectedHull" ToStringFunc="OmenConverters.HullNameConverter" >
-        @foreach (StarshipHull item in ViewModel.Hulls)
+        <MudSelect Label="Select Class" @bind-Value="ViewModel.NewShipSelectedClass" ToStringFunc="OmenConverters.ClassNameConverter">
+        @foreach (StarshipClass item in ViewModel.Classes)
         {
             <MudSelectItem Value="item" />
         }
@@ -15,8 +15,8 @@
 </MudGrid>
 <MudGrid>
     <MudItem xs="12">
-        <MudSelect Label="Select Class" @bind-Value="ViewModel.NewShipSelectedClass" ToStringFunc="OmenConverters.ClassNameConverter">
-        @foreach (StarshipClass item in ViewModel.Classes)
+        <MudSelect Label="Select Hull" @bind-Value="ViewModel.NewShipSelectedHull" ToStringFunc="OmenConverters.HullNameConverter" >
+        @foreach (StarshipHull item in ViewModel.NewShipAvailableHulls)
         {
             <MudSelectItem Value="item" />
         }

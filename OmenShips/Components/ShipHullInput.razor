@@ -16,8 +16,18 @@
     </MudItem>
 </MudGrid>
 <MudGrid>
+    <MudItem xs="12">
+        <MudSelect Label="Select Class" @bind-Value="ViewModel.StarshipHull.Class">
+            @foreach (StarshipClass item in ViewModel.ShipClasses)
+            {
+                <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+</MudGrid>
+<MudGrid>
     <MudItem>
-        <MudButton OnClick="ViewModel.AddNewShipHull">Add New Class</MudButton>
+        <MudButton OnClick="ViewModel.AddNewShipHull">Add New Hull</MudButton>
     </MudItem>
 </MudGrid>
 

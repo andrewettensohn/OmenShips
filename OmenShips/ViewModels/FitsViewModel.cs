@@ -39,6 +39,7 @@ namespace OmenShips.ViewModels
             set
             {
                 SetValue(ref _newShipSelectedClass, value);
+                NewShipAvailableHulls = Hulls.Where(x => x.Class?.Id == value.Id).ToList();
             }
         }
 
@@ -49,6 +50,16 @@ namespace OmenShips.ViewModels
             set
             {
                 SetValue(ref _hulls, value);
+            }
+        }
+
+        private List<StarshipHull> _newShipAvailableHulls = new List<StarshipHull>();
+        public List<StarshipHull> NewShipAvailableHulls
+        {
+            get => _newShipAvailableHulls;
+            set
+            {
+                SetValue(ref _newShipAvailableHulls, value);
             }
         }
 
@@ -142,7 +153,7 @@ namespace OmenShips.ViewModels
 
             SelectedShip = Ships.FirstOrDefault();
             NewShipSelectedClass = Classes.FirstOrDefault();
-            NewShipSelectedHull = Hulls.FirstOrDefault();
+            NewShipSelectedHull = new StarshipHull();
 
             if (SelectedShip != null)
             {
@@ -159,6 +170,12 @@ namespace OmenShips.ViewModels
                 StarshipClass = NewShipSelectedClass,
                 Modules = new List<ShipModule>()
             };
+
+            if(submittedShip.Hull == default)
+            {
+                Snackbar.Add("Failed to add new ship. You must select a hull.", Severity.Warning);
+                return;
+            }
 
             if(_emptyModule != null)
             {
@@ -178,7 +195,7 @@ namespace OmenShips.ViewModels
             }
             else
             {
-                Snackbar.Add("Failed to add new module.", Severity.Error);
+                Snackbar.Add("Failed to add new ship.", Severity.Error);
             }
         }
 
