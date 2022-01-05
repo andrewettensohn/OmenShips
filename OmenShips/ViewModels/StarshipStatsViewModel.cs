@@ -67,7 +67,7 @@ namespace OmenShips.ViewModels
             ArmorStrength = starship.Modules.Where(x => x.Category == ModuleCategory.Armor).Sum(x => x.Armor);
 
             SensorStrength = starship.Modules.Where(x => x.Category == ModuleCategory.Sensor).Sum(x => x.Sensor);
-            StealthRating = starship.Modules.Where(x => x.Category == ModuleCategory.BlackOps).Sum(x => x.Stealth) + starship.StarshipClass.BaseStealth;
+            StealthRating = starship.Modules.Where(x => x.Category == ModuleCategory.BlackOps || x.Category == ModuleCategory.Engine).Sum(x => x.Stealth) + starship.StarshipClass.BaseStealth;
             SpeedRating = starship.Modules.Sum(x => x.Speed) + starship.StarshipClass.BaseSpeed;
 
             Value = starship.Modules.Sum(x => x.Value);
