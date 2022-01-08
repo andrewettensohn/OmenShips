@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using MudBlazor;
 using OmenModels;
 using OmenShips.Interfaces;
+using OmenShips.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -201,17 +202,12 @@ namespace OmenShips.ViewModels
 
         public async Task AddModuleToShip(ShipModule newModule)
         {
-            int availableSlots = SelectedShip.Modules.Count(x => x.Category == ModuleCategory.EmptySlot);
 
-            if(newModule.SlotSpacesRequired > availableSlots)
-            {
-                Snackbar.Add("Not enough module slots to fit this module.", Severity.Warning);
-                return;
-            }
+            RuleOutcome outcome = StarshipRules.RunRulesForModuleInstallation(SelectedShip, newModule);
 
-            if(newModule.PowerRequirement + StarshipStatsViewModel.UsedPower > StarshipStatsViewModel.ProducedPower && newModule.Category != ModuleCategory.Reactor)
+            if(!outcome.IsSuccess)
             {
-                Snackbar.Add("Not enough power to fit this module.", Severity.Warning);
+                Snackbar.Add(outcome.Message, Severity.Warning);
                 return;
             }
 
