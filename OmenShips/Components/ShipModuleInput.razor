@@ -69,9 +69,17 @@
 </MudGrid>
 <MudGrid>
     <MudItem>
-        <MudButton OnClick="ViewModel.AddOrReplaceModule">Submit</MudButton>
+        <MudButton Variant="Variant.Outlined" OnClick="ViewModel.AddOrReplaceModule">Submit</MudButton>
     </MudItem>
 </MudGrid>
+@if(ViewModel.IsEditMode)
+{
+ <MudGrid Justify="Justify.FlexEnd">
+    <MudItem>
+        <MudButton Variant="Variant.Outlined" Color="Color.Error" OnClick="ViewModel.DeleteModule">Delete Module</MudButton>
+    </MudItem>
+</MudGrid>   
+}
 
 @code {
     [CascadingParameter]

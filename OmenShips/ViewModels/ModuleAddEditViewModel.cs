@@ -1,4 +1,5 @@
-﻿using OmenModels;
+﻿using MudBlazor;
+using OmenModels;
 using OmenShips.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,12 +53,15 @@ namespace OmenShips.ViewModels
             }
         }
 
+        public readonly ISnackbar Snackbar;
+
         private readonly IOmenTestRestService _omenTestRestService;
 
-        public ModuleAddEditViewModel(IOmenTestRestService omenTestRestService)
+        public ModuleAddEditViewModel(IOmenTestRestService omenTestRestService, ISnackbar snackbar)
         {
             _omenTestRestService = omenTestRestService;
             _shipModulesViewModel = new ShipModulesViewModel();
+            Snackbar = snackbar;
         }
 
         public async Task LoadViewModelAsync()
@@ -84,6 +88,27 @@ namespace OmenShips.ViewModels
             {
                 Modules = await _omenTestRestService.GetShipModules();
                 ShipModulesViewModel.LoadViewModelForShipModuleList(this);
+                Snackbar.Add("Module Added Successfully", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Failed to update.", Severity.Error);
+            }
+        }
+
+        public async Task DeleteModule()
+        {
+            bool isSuccess = await _omenTestRestService.DeleteShipModule(SelectedModule.Id);
+
+            if (isSuccess)
+            {
+                Modules = await _omenTestRestService.GetShipModules();
+                ShipModulesViewModel.LoadViewModelForShipModuleList(this);
+                Snackbar.Add("Module Deleted Successfully", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Failed to delete.", Severity.Error);
             }
         }
     }
